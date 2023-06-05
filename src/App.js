@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Canvas } from './Canvas.jsx';
+import { dataURLtoFile } from './dataUrlToFile';
+
 
 function share(obj) {
   if(navigator.share) {
@@ -13,18 +16,27 @@ function share(obj) {
   }
 }
 
+function download(story) {}
+
 function App() {
 
   // Create a random image and then convert it to Blob finally to a file
   const [file, setFile] = useState(null);
   useEffect(() => {
-    async function getImages() {
+    /* async function getImages() {
       const img = await fetch('https://picsum.photos/200/300');
       const blob = await img.blob();
       const file = new File([blob], 'story.jpeg', { type: 'image/jpeg'});
       setFile(file)
     }
-    getImages();
+    getImages(); */
+
+    
+
+    const dataURL = Canvas.toDataURL('image/jpg');
+    const file = dataURLtoFile(dataURL, 'story.jpg')
+
+    setFile(file);
   }, []);
 
   // objects to share info
@@ -41,7 +53,9 @@ function App() {
 
   return (
     <div className="App">
+      <Canvas width={500} height={500} />
       <button onClick={ () => share(story) }>Share</button>
+      <button onClick={ () => download(story) }>Download</button>
     </div>
   );
 }
