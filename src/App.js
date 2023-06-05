@@ -21,7 +21,7 @@ function App() {
     async function getImages() {
       const img = await fetch('https://picsum.photos/200/300');
       const blob = await img.blob();
-      const file = new File([blob], 'story.jpg', { type: 'image/jpg'});
+      const file = new File([blob], 'story.jpeg', { type: 'image/jpeg'});
       setFile(file)
     }
     getImages();
